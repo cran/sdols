@@ -7,7 +7,7 @@
 salso(expectedPairwiseAllocationMatrix, structure = c("clustering",
   "featureAllocation")[1], loss = c("squaredError", "absoluteError", "binder",
   "lowerBoundVariationOfInformation")[1], nCandidates = 100,
-  budgetInSeconds = 10, maxSize = 0)
+  budgetInSeconds = 10, maxSize = 0, maxScans = 10, multicore = TRUE)
 }
 \arguments{
 \item{expectedPairwiseAllocationMatrix}{A \code{n}-by-\code{n} symmetric matrix
@@ -38,6 +38,13 @@ features is no more than the supplied value.  If zero, the size is not constrain
 To avoid overfitting in feature allocation estimation, it is recommended that
 \code{"maxSize"} be close the mean number of features (i.e., columns) in the
 feature allocations that generated the \code{expectedPairwiseAllocationMatrix}.}
+
+\item{maxScans}{The maximum number of reallocation scans after the intial allocation.
+The actual number of scans may be less than \code{maxScans} since the algorithm stops
+if the result does not change between scans.}
+
+\item{multicore}{Logical indicating whether computations should take advantage of
+multiple CPU cores.}
 }
 \value{
 A clustering (as a vector of cluster labels) or a feature allocation (as a binary

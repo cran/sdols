@@ -5,7 +5,7 @@
 \title{Perform Draws-Based Latent Structure Optimization}
 \usage{
 dlso(x, loss = c("squaredError", "absoluteError", "binder",
-  "lowerBoundVariationOfInformation")[1], maxSize = 0)
+  "lowerBoundVariationOfInformation")[1], maxSize = 0, multicore = TRUE)
 }
 \arguments{
 \item{x}{A collection of clusterings or feature allocations.  If \code{x} is a
@@ -28,6 +28,9 @@ are valid.}
 \item{maxSize}{Either zero or a positive integer.  If a positive integer, the
 optimization is constrained to produce solutions whose number of clusters or number of
 features is no more than the supplied value.  If zero, the size is not constrained.}
+
+\item{multicore}{Logical indicating whether computations should take advantage of
+multiple CPU cores.}
 }
 \value{
 A clustering (as a vector of cluster labels) or a feature allocation (as a binary

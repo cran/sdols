@@ -7,7 +7,8 @@
 salso(expectedPairwiseAllocationMatrix, structure = c("clustering",
   "featureAllocation")[1], loss = c("squaredError", "absoluteError", "binder",
   "lowerBoundVariationOfInformation")[1], nCandidates = 100,
-  budgetInSeconds = 10, maxSize = 0, maxScans = 10, multicore = TRUE)
+  budgetInSeconds = 10, maxSize = 0, maxScans = 10, multicore = TRUE,
+  useOldImplementation = FALSE)
 }
 \arguments{
 \item{expectedPairwiseAllocationMatrix}{A \code{n}-by-\code{n} symmetric matrix
@@ -45,6 +46,9 @@ if the result does not change between scans.}
 
 \item{multicore}{Logical indicating whether computations should take advantage of
 multiple CPU cores.}
+
+\item{useOldImplementation}{Logical indicating whether to use the old implementation.  This should
+be removed after sufficient testing of the new implementation.}
 }
 \value{
 A clustering (as a vector of cluster labels) or a feature allocation (as a binary
@@ -58,6 +62,7 @@ Structures and their Applications" in Oaxaca, Mexico on December 6, 2017.
 }
 \examples{
 \donttest{
+
 probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 salso(probabilities)
 

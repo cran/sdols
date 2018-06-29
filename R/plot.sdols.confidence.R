@@ -12,6 +12,7 @@
 #'
 #' @examples
 #' \donttest{
+#'
 #' probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 #' clustering <- salso(probabilities)
 #' conf <- confidence(clustering,probabilities)
@@ -29,8 +30,9 @@
 plot.sdols.confidence <- function(x, clustering=NULL, data=NULL, show.labels=length(x$clustering)<=50, ...) {
   if ( ! is.null(data) ) {
     if ( ! is.null(clustering) ) stop("'clustering' must be 'NULL' for pairs plot.")
-    i <- x$exemplar[x$clustering]
-    c <- rainbow(length(x$exemplar))[x$clustering]
+    m <- match(x$clustering,as.numeric(colnames(x$confidenceMatrix)))
+    i <- x$exemplar[m]
+    c <- rainbow(length(x$exemplar))[m]
     panelFnc <- function(x0,y0,...) {
       points(x0,y0,col=c,pch=19,...)
       segments(x0,y0,x0[i],y0[i],col=c,...)
@@ -90,14 +92,16 @@ plot.sdols.confidence <- function(x, clustering=NULL, data=NULL, show.labels=len
   invisible()
 }
 
-.rotateForConfidencePlot <- function(expectedPairwiseAllocationMatrix, order) s %!% '
-  val nItems = expectedPairwiseAllocationMatrix.length
-  val xx = Array.ofDim[Double](nItems, nItems)
-  for (i <- 0 until nItems) {
-    for (j <- 0 until nItems) {
-      xx(i)(nItems - j - 1) = expectedPairwiseAllocationMatrix(order(i) - 1)(order(j) - 1)
+.rotateForConfidencePlot <- function(expectedPairwiseAllocationMatrix, order) {
+  s(epam=expectedPairwiseAllocationMatrix, order=order) * '
+    val nItems = epam.length
+    val xx = Array.ofDim[Double](nItems, nItems)
+    for (i <- 0 until nItems) {
+      for (j <- 0 until nItems) {
+        xx(i)(nItems - j - 1) = epam(order(i) - 1)(order(j) - 1)
+      }
     }
-  }
-  xx
-'
+    xx
+  '
+}
 

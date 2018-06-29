@@ -23,6 +23,7 @@ Functions to produce confidence plots (e.g., heatmaps of pairwise allocation pro
 }
 \examples{
 \donttest{
+
 probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 clustering <- salso(probabilities)
 conf <- confidence(clustering,probabilities)

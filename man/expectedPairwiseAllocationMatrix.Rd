@@ -32,6 +32,7 @@ randomly-sampled clusterings or feature allocations.
 }
 \examples{
 \donttest{
+
 probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 probabilities
 

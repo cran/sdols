@@ -5,7 +5,8 @@
 \title{Perform Draws-Based Latent Structure Optimization}
 \usage{
 dlso(x, loss = c("squaredError", "absoluteError", "binder",
-  "lowerBoundVariationOfInformation")[1], maxSize = 0, multicore = TRUE)
+  "lowerBoundVariationOfInformation")[1], maxSize = 0, multicore = TRUE,
+  expectedPairwiseAllocationMatrix = NULL)
 }
 \arguments{
 \item{x}{A collection of clusterings or feature allocations.  If \code{x} is a
@@ -31,6 +32,11 @@ features is no more than the supplied value.  If zero, the size is not constrain
 
 \item{multicore}{Logical indicating whether computations should take advantage of
 multiple CPU cores.}
+
+\item{expectedPairwiseAllocationMatrix}{A \code{n}-by-\code{n} symmetric matrix
+whose \code{(i,j)} elements gives the estimated expected number of times that items
+\code{i} and \code{j} are in the same subset (i.e., cluster or feature).  If \code{NULL},
+it is computed from \code{x}.}
 }
 \value{
 A clustering (as a vector of cluster labels) or a feature allocation (as a binary
@@ -42,6 +48,7 @@ one of various loss functions.
 }
 \examples{
 \donttest{
+
 dlso(iris.clusterings)
 dlso(USArrests.featureAllocations)
 }

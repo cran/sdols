@@ -31,6 +31,10 @@
 #'
 #' expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
 #' expectedCounts
+#' 
+#' \dontshow{
+#' rscala::scalaDisconnect(sdols:::s)
+#' }
 #' }
 #'
 #' @seealso \code{\link{dlso}}, \code{\link{salso}}
@@ -44,8 +48,8 @@ expectedPairwiseAllocationMatrix <- function(x) {
     r <- s$ClusteringSummary.expectedPairwiseAllocationMatrix(x)
     names <- colnames(x)
   } else if ( is.list(x) ) {
-    reference <- scalaConvert.featureAllocation(x)
-    r <- s$FeatureAllocationSummary.expectedPairwiseAllocationMatrix(reference)
+    refs <- scalaPush(x,"featureAllocation",s)
+    r <- s$FeatureAllocationSummary.expectedPairwiseAllocationMatrix(refs)
     names <- rownames(x[[1]])
   }
   dimnames(r) <- list(names,names)

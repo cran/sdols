@@ -1,17 +1,22 @@
 #' @import commonsMath
 
 .onLoad <- function(libname, pkgname) {
-  assign.callback <- function(s) s + '
+  s <- scala(c(pkgname,"commonsMath"))
+  scalaLazy(function(s) s + '
     import org.ddahl.sdols._
     import org.ddahl.sdols.network._
     import org.ddahl.sdols.clustering._
     import org.ddahl.sdols.featureallocation._
     import org.apache.commons.math3.random.{ RandomDataGenerator => RDG }
-  '
-  scalaPackage(c(pkgname,"commonsMath"),assign.callback)
+  ')
+  scalaPushRegister(scalaPush.clustering,"clustering",s)
+  scalaPullRegister(scalaPull.clustering,"clustering",s)
+  scalaPushRegister(scalaPush.featureAllocation,"featureAllocation",s)
+  scalaPullRegister(scalaPull.featureAllocation,"featureAllocation",s)
+  assign("s",s,envir=parent.env(environment()))
 }
 
 .onUnload <- function(libpath) {
-  scalaPackageUnload()
+  close(s)
 }
 

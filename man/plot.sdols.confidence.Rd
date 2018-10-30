@@ -29,6 +29,10 @@ clustering <- salso(probabilities)
 conf <- confidence(clustering,probabilities)
 plot(conf)
 plot(conf,data=iris)
+
+\dontshow{
+rscala::scalaDisconnect(sdols:::s)
+}
 }
 
 }

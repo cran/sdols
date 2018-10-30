@@ -5,10 +5,10 @@
 \title{Perform Sequentially-Allocated Latent Structure Optimization}
 \usage{
 salso(expectedPairwiseAllocationMatrix, structure = c("clustering",
-  "featureAllocation")[1], loss = c("squaredError", "absoluteError", "binder",
-  "lowerBoundVariationOfInformation")[1], nCandidates = 100,
-  budgetInSeconds = 10, maxSize = 0, maxScans = 10, multicore = TRUE,
-  useOldImplementation = FALSE)
+  "featureAllocation")[1], loss = c("squaredError", "absoluteError",
+  "binder", "lowerBoundVariationOfInformation")[1], nCandidates = 100,
+  budgetInSeconds = 10, maxSize = 0, maxScans = 10,
+  multicore = TRUE, useOldImplementation = FALSE)
 }
 \arguments{
 \item{expectedPairwiseAllocationMatrix}{A \code{n}-by-\code{n} symmetric matrix
@@ -68,6 +68,10 @@ salso(probabilities)
 
 expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
 salso(expectedCounts,"featureAllocation")
+
+\dontshow{
+rscala::scalaDisconnect(sdols:::s)
+}
 }
 
 }

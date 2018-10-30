@@ -25,6 +25,10 @@
 #' expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
 #' estimate <- salso(expectedCounts,"featureAllocation")
 #' latentStructureFit(estimate, expectedCounts)
+#' 
+#' \dontshow{
+#' rscala::scalaDisconnect(sdols:::s)
+#' }
 #' }
 #'
 #' @seealso \code{\link{expectedPairwiseAllocationMatrix}}, \code{\link{salso}}
@@ -44,7 +48,7 @@ latentStructureFit <- function(estimate, expectedPairwiseAllocationMatrix) {
     vi <- s$ClusteringSummary.lowerBoundVariationOfInformation(ref,epam)
     list("squaredError"=ss,"absoluteError"=sa,"binder"=binder,"lowerBoundVariationOfInformation"=vi)
   } else {
-    ref <- scalaConvert.featureAllocation(estimate,withParameters=FALSE)
+    ref <- scalaPush(estimate,"featureAllocation",s)
     ss <- s$FeatureAllocationSummary.sumOfSquares(ref,epam)
     sa <- s$FeatureAllocationSummary.sumOfAbsolutes(ref,epam)
     list("squaredError"=ss,"absoluteError"=sa)

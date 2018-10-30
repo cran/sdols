@@ -19,6 +19,10 @@
 #' clustering <- salso(probabilities)
 #' conf <- confidence(clustering,probabilities)
 #' conf
+#' 
+#' \dontshow{
+#' rscala::scalaDisconnect(sdols:::s)
+#' }
 #' }
 #'
 #' @seealso \code{\link{expectedPairwiseAllocationMatrix}}, \code{\link{dlso}}, \code{\link{salso}}

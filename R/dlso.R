@@ -38,6 +38,10 @@
 #'
 #' dlso(iris.clusterings)
 #' dlso(USArrests.featureAllocations)
+#' 
+#' \dontshow{
+#' rscala::scalaDisconnect(sdols:::s)
+#' }
 #' }
 #'
 #' @seealso \code{\link{expectedPairwiseAllocationMatrix}}, \code{\link{salso}}
@@ -64,15 +68,13 @@ dlso <- function(x, loss=c("squaredError","absoluteError","binder","lowerBoundVa
   epam <- if ( is.null(expectedPairwiseAllocationMatrix) ) s$None()
   else s$Some(as.matrix(expectedPairwiseAllocationMatrix))
   if ( doClustering ) {
-    x <- cleanUpClusteringMatrix(x)
-    ref <- s$ClusteringSummary.minAmongDraws(x,maxSize,multicore,loss,epam)
-    ref$toLabels()+1L
+    refs <- scalaPush(cleanUpClusteringMatrix(x),"clustering",s)
+    ref <- s$ClusteringSummary.minAmongDraws(refs,maxSize,multicore,loss,epam)
+    scalaPull(ref,"clustering",colnames(x))
   } else {
-    x <- scalaConvert.featureAllocation(x)
-    ref <- s$FeatureAllocationSummary.minAmongDraws(x,maxSize,multicore,loss,epam)
-    result <- scalaConvert.featureAllocation(ref,withParameters=FALSE)
-    attr(result,"scalaReference") <- NULL
-    result
+    refs <- scalaPush(x,"featureAllocation",s)
+    ref <- s$FeatureAllocationSummary.minAmongDraws(refs,maxSize,multicore,loss,epam)
+    scalaPull(ref,"featureAllocation",rownames(x[[1]]))
   }
 }
 

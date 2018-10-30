@@ -26,6 +26,10 @@ probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 clustering <- salso(probabilities)
 conf <- confidence(clustering,probabilities)
 conf
+
+\dontshow{
+rscala::scalaDisconnect(sdols:::s)
+}
 }
 
 }

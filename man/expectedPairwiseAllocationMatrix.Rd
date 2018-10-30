@@ -38,6 +38,10 @@ probabilities
 
 expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
 expectedCounts
+
+\dontshow{
+rscala::scalaDisconnect(sdols:::s)
+}
 }
 
 }

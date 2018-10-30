@@ -49,6 +49,10 @@
 #'
 #' expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
 #' salso(expectedCounts,"featureAllocation")
+#' 
+#' \dontshow{
+#' rscala::scalaDisconnect(sdols:::s)
+#' }
 #' }
 #'
 #' @seealso \code{\link{expectedPairwiseAllocationMatrix}}, \code{\link{dlso}}
@@ -81,12 +85,10 @@ salso <- function(expectedPairwiseAllocationMatrix, structure=c("clustering","fe
   multicore <- as.logical(multicore[1])
   result <- if ( doClustering ) {
     ref <- s$ClusteringSummary.sequentiallyAllocatedLatentStructureOptimization(nCandidates,budgetInSeconds,epam,maxSize,maxScans,multicore,loss,useOldImplementation)
-    ref$"_1"()$toLabels()+1L
+    scalaPull(ref$"_1"(),"clustering",rownames(expectedPairwiseAllocationMatrix))
   } else {
     ref <- s$FeatureAllocationSummary.sequentiallyAllocatedLatentStructureOptimization(nCandidates,budgetInSeconds,epam,maxScans,maxSize,multicore,loss)
-    result <- scalaConvert.featureAllocation(ref$"_1"(),withParameters=FALSE)
-    attr(result,"scalaReference") <- NULL
-    result
+    scalaPull(ref$"_1"(),"featureAllocation",rownames(expectedPairwiseAllocationMatrix))
   }
   attr(result,"nScans") <- ref$"_2"()
   attr(result,"nCandidates") <- ref$"_3"()

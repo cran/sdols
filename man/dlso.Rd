@@ -5,8 +5,8 @@
 \title{Perform Draws-Based Latent Structure Optimization}
 \usage{
 dlso(x, loss = c("squaredError", "absoluteError", "binder",
-  "lowerBoundVariationOfInformation")[1], maxSize = 0, multicore = TRUE,
-  expectedPairwiseAllocationMatrix = NULL)
+  "lowerBoundVariationOfInformation")[1], maxSize = 0,
+  multicore = TRUE, expectedPairwiseAllocationMatrix = NULL)
 }
 \arguments{
 \item{x}{A collection of clusterings or feature allocations.  If \code{x} is a
@@ -51,6 +51,10 @@ one of various loss functions.
 
 dlso(iris.clusterings)
 dlso(USArrests.featureAllocations)
+
+\dontshow{
+rscala::scalaDisconnect(sdols:::s)
+}
 }
 
 }

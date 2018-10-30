@@ -32,6 +32,10 @@ latentStructureFit(estimate, probabilities)
 expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
 estimate <- salso(expectedCounts,"featureAllocation")
 latentStructureFit(estimate, expectedCounts)
+
+\dontshow{
+rscala::scalaDisconnect(sdols:::s)
+}
 }
 
 }

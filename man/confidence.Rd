@@ -20,17 +20,14 @@ based on a clustering estimate and the expected pairwise allocation
 matrix.
 }
 \examples{
-\donttest{
+suppressWarnings({  # For testing purposes, suppress deprecation warning.
 
 probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 clustering <- salso(probabilities)
-conf <- confidence(clustering,probabilities)
+conf <- confidence(clustering, probabilities)
 conf
 
-\dontshow{
-rscala::scalaDisconnect(sdols:::s)
-}
-}
+})
 
 }
 \seealso{

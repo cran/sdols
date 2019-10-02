@@ -5,57 +5,44 @@
 \title{Perform Draws-Based Latent Structure Optimization}
 \usage{
 dlso(x, loss = c("squaredError", "absoluteError", "binder",
-  "lowerBoundVariationOfInformation")[1], maxSize = 0,
-  multicore = TRUE, expectedPairwiseAllocationMatrix = NULL)
+  "lowerBoundVariationOfInformation")[1], multicore = TRUE,
+  expectedPairwiseAllocationMatrix = NULL)
 }
 \arguments{
-\item{x}{A collection of clusterings or feature allocations.  If \code{x} is a
-\code{B}-by-\code{n} matrix, each of the \code{B} rows represents a clustering of
-\code{n} items using cluster labels.  For clustering \code{b}, items \code{i} and
-\code{j} are in the same cluster if and only if \code{x[b,i] == x[b,j]}.  If \code{x}
-is a list of length \code{B}, each element of list represents a feature allocation using
-a binary matrix of \code{n} rows and an arbitrary number of columns.  For feature
-allocation \code{b}, items \code{i} and \code{j} share \code{m} features if, for \code{k}
-= 1, 2, ..., the expression \code{x[[b]][i,k] == x[[b]][j,k] == 1} is true exactly
-\code{m} times.}
+\item{x}{A
+collection of clusterings as a
+\code{B}-by-\code{n} matrix, each of the \code{B} rows represents a
+clustering of \code{n} items using cluster labels.  For clustering
+\code{b}, items \code{i} and \code{j} are in the same cluster if
+\code{x[b,i] == x[b,j]}.}
 
 \item{loss}{One of \code{"squaredError"}, \code{"absoluteError"}, \code{"binder"}, or
 \code{"lowerBoundVariationOfInformation"} to indicate the optimization should seeks to
-minimize squared error loss, absolute error loss, Binder loss (Binder 1978), or the lower
-bound of the variation of information loss (Wade & Ghahramani 2017), respectively.  For
-clustering, the first three are equivalent.  For feature allocation, only the first two
-are valid.}
-
-\item{maxSize}{Either zero or a positive integer.  If a positive integer, the
-optimization is constrained to produce solutions whose number of clusters or number of
-features is no more than the supplied value.  If zero, the size is not constrained.}
+minimize expectation of the squared error loss, absolute error loss, Binder loss (Binder 1978), or the lower
+bound of the variation of information loss (Wade & Ghahramani 2017), respectively.
+The first three are equivalent.}
 
 \item{multicore}{Logical indicating whether computations should take advantage of
 multiple CPU cores.}
 
 \item{expectedPairwiseAllocationMatrix}{A \code{n}-by-\code{n} symmetric matrix
 whose \code{(i,j)} elements gives the estimated expected number of times that items
-\code{i} and \code{j} are in the same subset (i.e., cluster or feature).  If \code{NULL},
+\code{i} and \code{j} are in the same subset (i.e., cluster).  If \code{NULL},
 it is computed from \code{x}.}
 }
 \value{
-A clustering (as a vector of cluster labels) or a feature allocation (as a binary
-matrix of feature indicators).
+A list A clustering (as a vector of cluster labels).
 }
 \description{
 Among the supplied latent structures, this function picks the structure that minimizes
 one of various loss functions.
 }
 \examples{
-\donttest{
+suppressWarnings({  # For testing purposes, suppress deprecation warning.
 
 dlso(iris.clusterings)
-dlso(USArrests.featureAllocations)
 
-\dontshow{
-rscala::scalaDisconnect(sdols:::s)
-}
-}
+})
 
 }
 \references{

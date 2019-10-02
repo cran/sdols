@@ -1,3 +1,7 @@
+2.0.0 (2019-10-01)
+  * Deprecate functions that are superceded by those in the salso package.
+  * Remove experimental support for feature allocation support.
+
 1.7.5 (2019-07-02)
   * Support very large expected pairwise allocation matrices.
   * Support of Scala 2.13.

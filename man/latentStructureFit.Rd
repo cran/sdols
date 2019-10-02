@@ -7,36 +7,32 @@
 latentStructureFit(estimate, expectedPairwiseAllocationMatrix)
 }
 \arguments{
-\item{estimate}{A clustering or feature allocation.  If \code{estimate} is a length \code{n}
+\item{estimate}{A clustering.  If \code{estimate} is a length \code{n}
 vector, it is taken to be a clustering where items \code{i} and
-\code{j} are in the same cluster if and only if \code{estimate[i] == estimate[j]}.  If \code{estimate}
-is a binary matrix of \code{n} rows and an arbitrary number of columns, it is taken to be a feature allocation
-where items \code{i} and \code{j} share \code{m} features if, for \code{k}
-= 1, 2, ..., the expression \code{estimate[i,k] == estimate[j,k] == 1} is true exactly
-\code{m} times.}
+\code{j} are in the same cluster if and only if \code{estimate[i] == estimate[j]}.}
 
 \item{expectedPairwiseAllocationMatrix}{A \code{n}-by-\code{n} symmetric matrix
 whose \code{(i,j)} elements gives the estimated expected number of times that items
-\code{i} and \code{j} are in the same subset (i.e., cluster or feature).}
+\code{i} and \code{j} are in the same subset (i.e., cluster).}
+}
+\value{
+A list of the following elements: \describe{
+  \item{absoluteError}{The expectation of the absolute error loss.}
+  \item{binder}{The expectation of the binder loss.}
+  \item{lowerBoundVariationOfInformation}{The lower bound of the expectation of the variation of information loss.} }
 }
 \description{
-This function computes various summaries of the fit of a clustering or feature allocation based on the expected
+This function computes various summaries of the fit of a clustering based on the expected
 pairwise allocation matrix.
 }
 \examples{
-\donttest{
+suppressWarnings({  # For testing purposes, suppress deprecation warning.
+
 probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 estimate <- salso(probabilities)
 latentStructureFit(estimate, probabilities)
 
-expectedCounts <- expectedPairwiseAllocationMatrix(USArrests.featureAllocations)
-estimate <- salso(expectedCounts,"featureAllocation")
-latentStructureFit(estimate, expectedCounts)
-
-\dontshow{
-rscala::scalaDisconnect(sdols:::s)
-}
-}
+})
 
 }
 \seealso{

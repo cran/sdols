@@ -13,51 +13,21 @@
 #' @author David B. Dahl \email{dahl@stat.byu.edu}
 #'
 #' @examples
-#' \donttest{
-#'
+#' suppressWarnings({  # For testing purposes, suppress deprecation warning.
+#' 
 #' probabilities <- expectedPairwiseAllocationMatrix(iris.clusterings)
 #' clustering <- salso(probabilities)
-#' conf <- confidence(clustering,probabilities)
+#' conf <- confidence(clustering, probabilities)
 #' conf
 #' 
-#' \dontshow{
-#' rscala::scalaDisconnect(sdols:::s)
-#' }
-#' }
+#' })
 #'
 #' @seealso \code{\link{expectedPairwiseAllocationMatrix}}, \code{\link{dlso}}, \code{\link{salso}}
 #'
 #' @export
-#' @import rscala
-
+#' @importFrom salso confidence
+#'
 confidence <- function(estimate, expectedPairwiseAllocationMatrix) {
-  clustering <- as.clustering(estimate)
-  expectedPairwiseAllocationMatrix <- as.expectedPairwiseAllocationMatrix(expectedPairwiseAllocationMatrix)
-  tmpObj <- s$ClusteringSummary.confidenceComputations(clustering,expectedPairwiseAllocationMatrix)
-  confidence <- tmpObj$"_1"()
-  names(confidence) <- colnames(expectedPairwiseAllocationMatrix)
-  confidenceMatrix <- tmpObj$"_2"()
-  confidenceMatrixLabels <- tmpObj$"_3"()
-  dimnames(confidenceMatrix) <- list(confidenceMatrixLabels,confidenceMatrixLabels)
-  order <- tmpObj$"_4"() + 1L
-  exemplar <- tmpObj$"_5"() + 1L
-  names(exemplar) <- confidenceMatrixLabels
-  result <- list(clustering=estimate,confidence=confidence,confidenceMatrix=confidenceMatrix,exemplar=exemplar,order=order,expectedPairwiseAllocationMatrix=expectedPairwiseAllocationMatrix)
-  class(result) <- "sdols.confidence"
-  result
+  .Deprecated("confidence","salso","This function is deprecated.  Please use the 'confidence' function in the 'salso' package.")
+  salso::confidence(estimate, expectedPairwiseAllocationMatrix)
 }
-
-as.clustering <- function(clustering) {
-  if ( ! is.atomic(clustering) ) stop("'clustering' must be a vector.")
-  as.integer(clustering)
-}
-
-as.expectedPairwiseAllocationMatrix <- function(expectedPairwiseAllocationMatrix, isProbability=TRUE) {
-  if ( ! is.matrix(expectedPairwiseAllocationMatrix) ) stop("'expectedPairwiseAllocationMatrix' must be a matrix.")
-  if ( ! isSymmetric(expectedPairwiseAllocationMatrix) ) stop("'expectedPairwiseAllocationMatrix' must be symmetric.")
-  storage.mode(expectedPairwiseAllocationMatrix) <- "double"
-  if ( min(expectedPairwiseAllocationMatrix) < 0.0 ) stop("Elements of 'expectedPairwiseAllocationMatrix' are less than 0.")
-  if ( isProbability && ( max(expectedPairwiseAllocationMatrix) > 1.0 ) ) stop("Elements of 'expectedPairwiseAllocationMatrix' are greater than 1.")
-  expectedPairwiseAllocationMatrix
-}
-
